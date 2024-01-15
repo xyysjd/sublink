@@ -58,7 +58,7 @@
             <div style="margin-bottom: 10px"></div>
             <div style="display: flex">
             <el-tag style="margin-right: 10px">生成类型</el-tag>
-            <el-select v-model="EDIT.value" placeholder="生成类型" @change="handleValue('edit')">
+            <el-select v-model="EDIT.value" placeholder="生成类型" @change="handleUrl('edit')">
               <el-option
                 v-for="(item,index) in EDIT.option"
                 :key="index"
@@ -187,10 +187,6 @@ export default {
       // console.log(list.join('\n'))
       this.optionSub = list.join('\n')
       this.handleUrl('edit')
-      // let list = []
-      // list = this.list.map(item => item.node + (item.remarks ? '|' + item.remarks : ''))
-      // this.optionSub = list.join('\n')
-      // this.handleUrl('edit')
     }
   },
   methods: {
@@ -244,6 +240,7 @@ export default {
       })
       if (code === 200) {
         console.log('修改成功')
+        this.optionValue = ''
         this.GetSubs() // 刷新全部节点
       }
     },
