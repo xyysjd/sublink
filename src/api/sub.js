@@ -23,6 +23,9 @@ const SetSub = (obj) => { // 删除指定订阅节点
 const DecodeSub = (obj) => {
   return request.post('/decode_sub', obj)
 }
+const RenameSub = (name, obj) => {
+  return request.post(`/rename_sub/${name}`, obj)
+}
 export {
   GetSubs,
   GetSub,
@@ -31,5 +34,6 @@ export {
   DelSub,
   DelSubNode,
   SetSub,
-  DecodeSub
+  DecodeSub,
+  RenameSub
 }

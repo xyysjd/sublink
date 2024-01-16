@@ -19,7 +19,7 @@
           <div style="margin-bottom: 10px"></div>
           <!--        编辑订阅-->
           <div v-if="radio1==='1'">
-            <div>
+            <div style="display: flex">
               <el-select v-model="optionValue" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in optionList"
@@ -27,14 +27,9 @@
                   :value="item">
                 </el-option>
               </el-select>
-              <el-button
-                type="danger"
-                size="mini"
-                style="margin-left: 10px"
-                @click="handleDel"
-                round
-              >删除订阅
-              </el-button>
+
+              <rename @handleRename="handleRename" @handleDel="handleDel"></rename>
+
             </div>
             <div style="margin-bottom: 10px"></div>
             <Nodelist :list="this.NodeList" v-if="optionSub!==''" @DelSubNode="DelSubNode"></Nodelist>
@@ -142,11 +137,12 @@
 </template>
 
 <script>
-import { GetSubs, CreateSub, DelSub, SetSub, DecodeSub } from '@/api/sub'
+import { GetSubs, CreateSub, DelSub, SetSub, DecodeSub, RenameSub } from '@/api/sub'
 import USER from '@/components/user'
 import MyClash from '@/components/clash'
 import MyAddress from '@/components/address'
 import Nodelist from '@/components/nodelist'
+import Rename from '@/components/rename'
 import VueQr from 'vue-qr'
 export default {
   name: 'MyIndex',
@@ -185,6 +181,7 @@ export default {
       // console.log(res)
       const list = this.NodeList.map(item => item.node + (item.remarks ? '|' + item.remarks : ''))
       // console.log(list.join('\n'))
+      this.optionValue = newValue
       this.optionSub = list.join('\n')
       this.handleUrl('edit')
     }
@@ -239,7 +236,7 @@ export default {
         type: code === 200 ? 'success' : 'warning'
       })
       if (code === 200) {
-        console.log('修改成功')
+        // console.log('修改成功')
         this.optionValue = ''
         this.GetSubs() // 刷新全部节点
       }
@@ -327,6 +324,33 @@ export default {
     DelSubNode (id) {
       this.list = this.list.filter(item => item.id !== id)
       this.optionValue = '' // 更新选项值为空字符串
+    },
+    async handleRename (rename) {
+      if (this.optionValue !== '' && rename !== '') {
+        const { code, msg } = await RenameSub(this.optionValue,
+          {
+            newName: rename
+          }
+        )
+        this.$message({
+          message: msg,
+          type: code === 200 ? 'success' : 'warning'
+        })
+        if (code === 200) {
+          // console.log(this.optionValue, rename)
+          this.list.forEach(item => { // 更新全部列表
+            if (item.name === this.optionValue) {
+              item.name = rename
+            }
+          })
+          this.optionList.forEach((item, index) => { // 更新下拉列表
+            if (item === this.optionValue) {
+              this.optionList[index] = rename
+            }
+          })
+          this.optionValue = rename // 更新当前下拉标题
+        }
+      }
     }
   },
   components: {
@@ -334,6 +358,7 @@ export default {
     MyClash,
     MyAddress,
     Nodelist,
+    Rename,
     VueQr
   }
 }

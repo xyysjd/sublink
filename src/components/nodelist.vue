@@ -44,7 +44,7 @@ export default {
     list: Array
   },
   created () {
-    console.log(this.list)
+    // console.log(this.list)
   },
   methods: {
     handleClick ({ id }) {
