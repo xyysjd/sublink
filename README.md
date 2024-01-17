@@ -1,4 +1,6 @@
 # 更新说明：
+支持识别订阅名称
+初步适配hysteria和hy2协议
 修复许些bug,编辑订阅增加节点管理
 容器支持amd和arm
 # 功能说明：
@@ -35,10 +37,13 @@ docker rmi 这里填写IMAGEID
 
 ```docker pull jaaksi/sublink```
 
-## 持久化存储启动docker[挂载到docker数据卷]
+## 持久化启动docker[挂载到本机docker数据卷]
 
-下面是默认参数，不懂不需要改动只需要使用即可
-5000为容器端口可以自由修改，PORT也要跟着改
+sublink_data >> 数据卷名称
+5000 >> 容器端口 << PORT
+8000 >> 本机端口如公网访问的端口
+
+如果不懂直接无脑粘贴启动即可
 ```
 docker volume create sublink_data
 docker run --name sublink -p 8000:5000 \
@@ -55,8 +60,11 @@ docker run --name sublink -p 8000:5000 \
 
 ### 持久化启动docker方式二[挂载到本机]
 
-/www/sublink_data为你本机要存放数据的目录
-5000为容器端口可以自由修改，PORT也要跟着改
+/www/sublink_data >> 本机目录
+5000 >> 容器端口 << PORT
+8000 >> 本机端口如公网访问的端口
+
+如果不懂直接无脑粘贴启动即可
 
 ```
 docker run --name sublink -p 8000:5000 \
@@ -67,7 +75,7 @@ docker run --name sublink -p 8000:5000 \
 
 # clash配置说明：
 
-目前适配了vless,vmess,ssr,ss,trojan协议
+目前适配了vless,vmess,ssr,ss,trojan,hysteria,hy2协议
 
 如果发现连接无效问题请找我反馈
 
@@ -79,4 +87,7 @@ docker run --name sublink -p 8000:5000 \
 
 如果你不明白这是什么意思你就不用动默认规则
 
-本人电报联系和投喂：@toutie_1
+本人电报联系：@toutie_1
+
+USDT打赏：![Alt Text](readme/img.png)
+
