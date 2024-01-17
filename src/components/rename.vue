@@ -20,7 +20,7 @@
     title="新订阅名称"
     :visible.sync="dialogVisible"
     width="30%"
-    :before-close="handleClose">
+    >
     <el-input
       v-model.trim="rename"
       ref="inp"
@@ -50,13 +50,6 @@ export default {
         // console.log(this.$refs.inp)
         this.$refs.inp.focus()
       })
-    },
-    handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
     },
     handleRename () {
       this.$emit('handleRename', this.rename)

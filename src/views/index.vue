@@ -32,7 +32,7 @@
 
             </div>
             <div style="margin-bottom: 10px"></div>
-            <Nodelist :list="this.NodeList" v-if="optionSub!==''" @DelSubNode="DelSubNode"></Nodelist>
+            <Nodelist :list="this.NodeList" v-if="optionSub!==''" @DelSubNode="DelSubNode" @CopySubNode="CopySubNode"></Nodelist>
             <div style="margin-bottom: 10px"></div>
             <div v-if="optionValue!=''">
 <!--            <el-tag type="info" style="margin-right: 10px">-->
@@ -194,6 +194,10 @@ export default {
       } else {
         this.list = res
         this.optionList = Array.from(new Set(this.list.map(item => item.name)))
+        this.NodeList = this.list.filter(item => item.name === this.optionValue)
+        const NodeList = this.NodeList.map(item => item.node + (item.remarks ? '|' + item.remarks : ''))
+        // console.log(list.join('\n'))
+        this.optionSub = NodeList.join('\n')
       }
       this.list.length > 0 ? this.radio1 = '1' : this.radio1 = '2'
     },
@@ -237,8 +241,9 @@ export default {
       })
       if (code === 200) {
         // console.log('修改成功')
-        this.optionValue = ''
+        // this.optionValue = ''
         this.GetSubs() // 刷新全部节点
+        // console.log(this.NodeList)
       }
     },
     handleOpenUrl (url) {
@@ -321,9 +326,11 @@ export default {
         alert(msg)
       }
     },
-    DelSubNode (id) {
-      this.list = this.list.filter(item => item.id !== id)
-      this.optionValue = '' // 更新选项值为空字符串
+    CopySubNode (text) {
+      this.handleCopy(text)
+    },
+    DelSubNode () {
+      this.GetSubs()
     },
     async handleRename (rename) {
       if (this.optionValue !== '' && rename !== '') {
@@ -337,17 +344,7 @@ export default {
           type: code === 200 ? 'success' : 'warning'
         })
         if (code === 200) {
-          // console.log(this.optionValue, rename)
-          this.list.forEach(item => { // 更新全部列表
-            if (item.name === this.optionValue) {
-              item.name = rename
-            }
-          })
-          this.optionList.forEach((item, index) => { // 更新下拉列表
-            if (item === this.optionValue) {
-              this.optionList[index] = rename
-            }
-          })
+          this.GetSubs()
           this.optionValue = rename // 更新当前下拉标题
         }
       }
