@@ -1,6 +1,8 @@
 # 更新说明：
 更换uwsgi服务器组件为gunicorn
+
 修复nekobox导入的协议带/出错
+
 # 功能说明：
 ![Alt Text](readme/1.png)
 ![Alt Text](readme/2.png)
@@ -38,7 +40,9 @@ docker rmi 这里填写IMAGEID
 ## 持久化启动docker[挂载到本机docker数据卷]
 
 sublink_data >> 数据卷名称
+
 5000 >> 容器端口 << PORT
+
 8000 >> 本机端口如公网访问的端口
 
 如果不懂直接无脑粘贴启动即可
@@ -59,7 +63,9 @@ docker run --name sublink -p 8000:5000 \
 ### 持久化启动docker方式二[挂载到本机]
 
 /www/sublink_data >> 本机目录
+
 5000 >> 容器端口 << PORT
+
 8000 >> 本机端口如公网访问的端口
 
 如果不懂直接无脑粘贴启动即可
