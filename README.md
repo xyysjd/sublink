@@ -1,8 +1,6 @@
 # 更新说明：
-支持识别订阅名称
-初步适配hysteria和hy2协议
-修复许些bug,编辑订阅增加节点管理
-容器支持amd和arm
+更换uwsgi服务器组件为gunicorn
+修复nekobox导入的协议带/出错
 # 功能说明：
 ![Alt Text](readme/1.png)
 ![Alt Text](readme/2.png)
@@ -23,7 +21,7 @@ v2ray格式通用的软件已测有下:v2rayn 小火箭 圈x等，还有一些�
 
 # 安装说明：
 
-## 拉取或者更新docker镜像
+## 拉取或者更新docker镜像[容器支持amd和arm]
 
 如果你有旧版本拉取前可以先停止和删除容器再删除镜像
 
@@ -89,5 +87,9 @@ docker run --name sublink -p 8000:5000 \
 
 本人电报联系：@toutie_1
 
-USDT打赏：![Alt Text](readme/img.png)
+电报群组:https://t.me/+u6gLWF0yP5NiZWQ1
+
+USDT打赏：
+
+![Alt Text](readme/img.png)
 
