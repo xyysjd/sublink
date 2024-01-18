@@ -9,6 +9,7 @@ COPY docker-compose.yml .
 #RUN apt-get update && apt-get install -y build-essential
 RUN apt-get update && apt-get install -y tzdata
 ENV TZ=Asia/Shanghai
+RUN apt-get update && apt-get install -y gcc
 RUN pip3 install -r requirements.txt
 #RUN pip3 install setuptools wheel
 #RUN pip3 install uwsgi
